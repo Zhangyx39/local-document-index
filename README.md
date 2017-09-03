@@ -1,6 +1,8 @@
 # local-document-index
 An implementation of local document index similar to elasticsearch, which can handle large number of documents and terms without using excessive memory or disk I/O.
 
+The project can be separated in 4 parts: tokenizing, indexing, merging and retrieving.
+
 ## Tokenizing
 
 ### Dataset
@@ -43,6 +45,17 @@ In catalogue:
 
 
 ## Indexing
+  - Record tokens from all documents and save them in the [termlist](index/termlist.txt) file with following format(df for document frequency, ttf for total term frequency, tf for term frequency):
+```
+term_id df ttf;doc_id1 tf position1 position2 ...;doc_id2 tf position1 posiont2 ...; ...
+```
+For example, `1 1 1;47407 1 258` means `term_id 1` appears once in the whole dataset and appears in only one document. In `document_id 47407` it appears once in position 258.
+  - Record term_id, term and the offset in termlist for all terms to [catalogue](index/catalogue.txt) file.
+  
+For exapmle, `2 flashier 33 72` means term number 2 is "flashier", and it is store in position 33 with length 72 in the termlist file.
+
+  - Record document name, document_id and document length in [docInfo](index/docInfo.txt) file.
+
 
 ## Merging
 
